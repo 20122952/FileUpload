@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Stream 多个实例测试 DEMO</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link href="/FileUpload/css/stream-v1.css" rel="stylesheet"
+	type="text/css">
+</head>
+<body>
+	<div>
+		<div style="display: inline-block; width: 20%;">
+			<div id="i_select_files1"></div>
+		</div>
+	</div>
+	<div id="i_select_files0" style="float: left"></div>
+	|
+	<button onclick="javascript:_t0.upload();">开始上传</button>
+	|
+	<button onclick="javascript:_t0.stop();">停止上传</button>
+	|
+	<button onclick="javascript:_t0.cancel();">取消</button>
+	|
+	<button onclick="javascript:_t0.disable();">禁用文件选择</button>
+	|
+	<button onclick="javascript:_t0.enable();">启用文件选择</button>
+	|
+	<button onclick="javascript:_t0.hideBrowseBlock();">隐藏文件选择按钮</button>
+	|
+	<button onclick="javascript:_t0.showBrowseBlock();">显示文件选择按钮</button>
+
+	<div id="i_stream_files_queue0"
+		style="display: none; overflow: auto; background: white; position: absolute; left: 10%; top: 20%;"></div>
+
+	<script type="text/javascript" src="/FileUpload/js/stream-v1.js"></script>
+	<script type="text/javascript">
+/**
+ * 配置文件（如果没有默认字样，说明默认值就是注释下的值）
+ * 但是，on*（onSelect， onMaxSizeExceed...）等函数的默认行为
+ * 是在ID为i_stream_message_container的页面元素中写日志
+ */
+ 
+ var aa = 529;
+	var config0 = {
+		browseFileId : "i_select_files0", /** 选择文件的ID, 默认: i_select_files */
+		browseFileBtn : "<button>请选择文件</button>", /** 显示选择文件的样式, 默认: `<div>请选择文件</div>` */
+		dragAndDropArea: "i_select_files1", /** 拖拽上传区域，Id（字符类型"i_select_files"）或者DOM对象, 默认: `i_select_files` */
+		dragAndDropTips: "<span>把文件(文件夹)拖拽到这里0</span>", /** 拖拽提示, 默认: `<span>把文件(文件夹)拖拽到这里</span>` */
+		filesQueueId : "i_stream_files_queue0", /** 文件上传容器的ID, 默认: i_stream_files_queue */
+		filesQueueHeight : 300, /** 文件上传容器的高度（px）, 默认: 450 */
+		messagerId : "i_stream_message_container", /** 消息显示容器的ID, 默认: i_stream_message_container */
+		multipleFiles: true, /** 多个文件一起上传, 默认: false */
+		autoUploading: true, /** 选择文件后是否自动上传, 默认: true */
+		autoRemoveCompleted : true, /** 是否自动删除容器中已上传完毕的文件, 默认: false */
+		postVarsPerFile : { /** 上传文件时传入的参数，默认: {} */
+			param1: "上传文件时",
+			param2: "val2-0"
+		
+		},
+
+			swfURL : "swf/FlashUploader.swf",
+			/** SWF文件的位置 */
+			tokenURL : "/FileUpload/tk",
+			/** 根据文件名、大小等信息获取Token的URI（用于生成断点续传、跨域的令牌） */
+			frmUploadURL : "http://localhost:8080/FileUpload/fd;",
+			/** Flash上传的URI */
+			uploadURL : "http://localhost:8080/FileUpload/upload",
+			/** HTML5上传的URI */
+			simLimit : 200,
+			/** 单次最大上传文件个数 */
+			extFilters : [ ".txt", ".rpm", ".rmvb", ".gz", ".rar", ".zip",
+					".pdf", ".avi", ".mkv", ".mp3" ],
+			/** 允许的文件扩展名, 默认: [] */
+			onMaxSizeExceed : function(size, limited, name) {
+				alert('onMaxSizeExceed')
+			},
+			/** 文件大小超出的响应事件 */
+			onFileCountExceed : function(selected, limit) {
+				alert('onFileCountExceed')
+			},
+			/** 文件数量超出的响应事件 */
+			onExtNameMismatch : function(name, filters) {
+				alert('onExtNameMismatch')
+			},
+			/** 文件的扩展名不匹配的响应事件 */
+			onComplete : function(file) {
+				alert('onComplete')
+			},
+			/** 单个文件上传完毕的响应事件 */
+			onUploadError : function(status, msg) {
+				alert('onUploadError')
+			},
+			/** 文件上传出错的响应事件 */
+			onSelect : function(selected) {
+				var fade = document.getElementById('i_stream_files_queue0');
+				if (selected.length > aa) {
+					fade.style.display = 'none';
+				} else {
+					fade.style.display = 'block';
+				}
+			},
+
+			onQueueComplete : function(msg) {
+				alert(msg);
+				var fade = document.getElementById('i_stream_files_queue0');
+				fade.style.display = 'none';
+			},
+
+			onCancel : function() {
+				var fade = document.getElementById('i_stream_files_queue0');
+				fade.style.display = 'none';
+			},
+		};
+		var _t0 = new Stream(config0);
+	</script>
+</body>
